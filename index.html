@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NutriHair Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e3f9f7;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .chat-container {
+      background-color: #fceeee;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .chat-header {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #00796b;
+    }
+    .chat-box {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+    }
+    .message {
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 12px;
+    }
+    .bot {
+      background-color: #d7fff5;
+      align-self: flex-start;
+    }
+    .user {
+      background-color: #cce7e1;
+      align-self: flex-end;
+      text-align: right;
+    }
+    .chat-input {
+      display: flex;
+    }
+    .chat-input input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    .chat-input button {
+      background-color: #00796b;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-left: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">🤖 NutriHair</div>
+    <div class="chat-box" id="chatBox">
+      <div class="message bot">Olá! 👋 Sou o NutriHair, seu assistente de saúde capilar. Me conte como posso te ajudar hoje?</div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Digite sua pergunta aqui..." />
+      <button onclick="sendMessage()">Enviar</button>
+    </div>
+  </div>
+
+  <script>
+    const perguntas = [
+      "Você já foi diagnosticada com alguma deficiência nutricional?",
+      "Você sofre ou já sofreu com queda de cabelo?",
+      "Há quanto tempo você percebe a queda capilar?",
+      "A queda de cabelo foi diagnosticada por um profissional?",
+      "Algum profissional mencionou relação com alimentação ou deficiência nutricional?",
+      "Com que frequência você consome alimentos ricos em ferro, zinco e vitaminas B?",
+      "Você faz uso de suplementos alimentares?",
+      "Você tem alguma outra condição de saúde? (ex: hipotireoidismo, SOP, estresse)"
+    ];
+
+    let currentQuestion = 0;
+    const chatBox = document.getElementById("chatBox");
+
+    function addMessage(message, sender) {
+      const messageDiv = document.createElement("div");
+      messageDiv.className = `message ${sender}`;
+      messageDiv.innerHTML = message;
+      chatBox.appendChild(messageDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function sendMessage() {
+      const userInput = document.getElementById("userInput");
+      const message = userInput.value;
+      if (!message) return;
+
+      addMessage(message, "user");
+      userInput.value = "";
+
+      setTimeout(() => {
+        if (currentQuestion < perguntas.length) {
+          addMessage(perguntas[currentQuestion] + " 🧠", "bot");
+          currentQuestion++;
+        } else {
+          addMessage("Com base nas suas respostas, aqui vão algumas sugestões: 📝<br><ul><li>Inclua alimentos ricos em ferro e vitaminas B na sua dieta.</li><li>Evite dietas restritivas sem acompanhamento profissional.</li><li>Considere consultar fontes confiáveis como <a href='https://www.nutricionistas.org.br' target='_blank'>Sociedade Brasileira de Nutrição</a>.</li><li>Se possível, busque uma avaliação com um nutricionista popular ou pelo SUS.</li></ul>", "bot");
+        }
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
